@@ -2,11 +2,13 @@ package org.avol.vertx.web.verticles;
 
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
+import org.avol.vertx.web.model.Message;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -44,6 +46,8 @@ public class WebVerticleTest {
             context.assertTrue(body.toJsonObject().containsKey("message"));
             context.assertTrue(body.toJsonObject().containsKey("date"));
             context.assertTrue(body.toJsonObject().containsKey("id"));
+            Message message = Json.decodeValue(body.toString(), Message.class);
+            context.assertTrue(message.getMessage().contains("Hello, welcome to Ansible AWS session . "));
             async.complete();
         }));
     }
